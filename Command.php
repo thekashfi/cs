@@ -26,15 +26,16 @@ class Command
      */
     public function add_user(): void
     {
-        $team = $this->command[2];
         $name = $this->command[1];
+        $team = $this->command[2];
+        $time = $this->command[3];
 
         if (game()->player_exists($name))
             exception('you are already in this game');
 
         // Player::create($name)->join($team); // TODO: how do i write this syntax.
 
-        Player::create($name, $team);
+        Player::create($name, $time)->join($team);
         $this->output = 'this user added to ' . $team;
     }
 
@@ -75,8 +76,8 @@ class Command
 
         $attacked = $this->find_or_fail($attacked);
 
-        if ($attacker->shoot($attacked, $gun_type))
-            $this->output = 'nice shot';
+        $attacker->shoot($attacked, $gun_type);
+        $this->output = 'nice shot';
     }
 
     /**
@@ -98,6 +99,14 @@ class Command
 
         $player->buy($gun);
         $this->output = 'I hope you can use it';
+    }
+
+    /**
+     * print player's <rank> <name> <kills> <deaths>
+     */
+    public function score_board(): void
+    {
+        game()->board();
     }
 
     public function output(): string

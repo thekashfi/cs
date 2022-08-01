@@ -10,9 +10,8 @@ $commands = preg_split("/\d\d:\d\d:\d\d\d\K/", $commands, null, PREG_SPLIT_NO_EM
 echo "    \033[32minput:\n \033[0m\n";
 foreach ($commands as $line => $command) {
     echo "        " . $line+1 . ' ' . trim($command);
-    if ($line !== array_key_last($commands)) {
+    if ($line !== array_key_last($commands))
         echo "\n";
-    }
 }
 
 // print outputs
@@ -23,9 +22,8 @@ foreach ($commands as $line => $command) {
     $output = (new Command(trim($command)))->output();
     if ($output !== ''){
         echo "        " . $line+1 . ' ' . $output;
-        if ($line !== array_key_last($commands)) {
+        if ($line !== array_key_last($commands))
             echo "\n";
-        }
     }
 }
 

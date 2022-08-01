@@ -3,80 +3,73 @@
 class Player
 {
     public string $name;
+    public string $team;
     private array $guns = [];
     public int $health = 0;
     public int $money = 0;
+    public int $kills = 0;
+    public int $deaths = 0;
+    public int $joined_at;
 
     /**
      * create CTPlayer or TPlayer.
      */
-    public static function create(string $name, string $team): CTPlayer|TPlayer
+    public static function create(string $name, string $time): Player
     {
-        if ($team === 'Counter-Terrorist')
-            $player = new CTPlayer;
-        else
-            $player = new TPlayer;
-
+        $player = new self;
         $player->name = $name;
-
-        // join
-        if ($player instanceof CTPlayer)
-            ct()->join_player($player);
-        else
-            t()->join_player($player);
-
+        $player->set_joined_at($time);
         return $player;
     }
 
-//    /**
-//     * joins the given player to the relevant team.
-//     */
-//    public function join(CTPlayer|TPlayer $player): void
-//    {
-//        if ($player instanceof CTPlayer)
-//            ct()->join_player($player);
-//        else
-//            t()->join_player($player);
-//    }
+    /**
+     * joins the given player to the relevant team.
+     */
+    public function join(string $team): Player
+    {
+        if ($team === ct()->name)
+            ct()->join_player($this);
+        else
+            t()->join_player($this);
 
-    public function shoot(Player $player, string $gun_type): bool
+        $this->team = $team;
+        return $this;
+    }
+
+    public function shoot(Player $attacked, string $gun_type): void
     {
         if ($this->health === 0)
             throw new CsException('attacker is dead');
 
-        if ($player->health === 0)
+        if ($attacked->health === 0)
             throw new CsException('attacked is dead');
 
-//        if ($damage = $this->{$gun_type}?->damage === null) TODO: rewrite this.
-//            throw new CsException('no such gun');
+        if (! $gun = $this->gun($gun_type))
+            throw new CsException('no such gun');
 
-        if ($this->team->name === $player->team->name) //TODO: write check for has_killed and rewarding.
+        if ($this->team === $attacked->team)
             throw new CsException('friendly fire');
 
-        return $player->shot($damage);
+        $attacked_health = $attacked->shot($gun->damage);
+        if ($attacked_health === 0) {
+            $this->add_money($gun->reward);
+            $this->kills++;
+        }
     }
 
     public function shot($damage): bool
     {
         $health = $this->decrease_health($damage);
-        return true; // TODO: refactor this and shoot returns...
+        if ($health === 0)
+            $this->deaths++;
+
+        return $health;
     }
 
-    public function was_teammate($shot_player)
-    {
 
-    }
-
-    public function has_killed()
-    {
-
-    }
-
-    public function get_reward()
-    {
-
-    }
-
+    /**
+     * buy gun for player.
+     */
     public function buy(string $gun_name): void
     {
         $gun = shop()->buy($gun_name);
@@ -95,9 +88,9 @@ class Player
     }
 
     /**
-     * return player's gun of given type.
+     * return player's gun with given type. and null if not found between player's guns.
      */
-    public function gun(string $gun_type): Gun|null
+    private function gun(string $gun_type): Gun|null
     {
         foreach ($this->guns as $gun) {
             if ($gun->type === $gun_type)
@@ -122,5 +115,11 @@ class Player
     public function subtract_money(int $money): void
     {
         $this->money -= $money;
+    }
+
+    private function set_joined_at(string $time)
+    {
+        $milliseconds = explode(':', $time)[2];
+        $this->joined_at = strtotime(str_replace(':' . $milliseconds, '', $time)) . $milliseconds;
     }
 }

@@ -33,4 +33,13 @@ class Game
         }
         return null;
     }
+
+    /**
+     * prints full game score-board.
+     */
+    public function board() {
+        ct()->board();
+        echo "\n";
+        t()->board();
+    }
 }

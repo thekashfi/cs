@@ -55,12 +55,29 @@ class Team
         return null;
     }
 
-//    public function names(): array
-//    {
-//        $names = [];
-//        foreach ($this->players as $player) {
-//            $names[] = $player->name;
-//        }
-//        return $names;
-//    }
+    /**
+     * prints team score-board.
+     */
+    public function board() {
+        echo $this->name . ":\n";
+
+
+        $players = [];
+        foreach ($this->players as $player) {
+            $players[] = (array) $player;
+        }
+
+        array_multisort(
+            array_column($players, 'kills'),  SORT_DESC,
+            array_column($players, 'deaths'), SORT_ASC,
+            array_column($players, 'joined_at'), SORT_ASC,
+            $players);
+
+        foreach ($players as $rank => $p) {
+            echo $rank+1 . " {$p['name']} {$p['kills']} {$p['deaths']}";
+
+            if ($rank !== array_key_last($players))
+                echo "\n";
+        }
+    }
 }
