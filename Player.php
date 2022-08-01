@@ -3,9 +3,7 @@
 class Player
 {
     public string $name;
-    public Gun $knife;
-    public Gun $pistol;
-    public Gun $heavy;
+    private array $guns = [];
     public int $health = 0;
     public int $money = 0;
 
@@ -41,7 +39,7 @@ class Player
 //            t()->join_player($player);
 //    }
 
-    public function shoot(Player $player, string $gun): bool
+    public function shoot(Player $player, string $gun_type): bool
     {
         if ($this->health === 0)
             throw new CsException('attacker is dead');
@@ -49,10 +47,10 @@ class Player
         if ($player->health === 0)
             throw new CsException('attacked is dead');
 
-        if ($damage = $this->{$gun}?->damage === null)
-            throw new CsException('no such gun');
+//        if ($damage = $this->{$gun_type}?->damage === null) TODO: rewrite this.
+//            throw new CsException('no such gun');
 
-        if ($this->team->name === $player->team->name)
+        if ($this->team->name === $player->team->name) //TODO: write check for has_killed and rewarding.
             throw new CsException('friendly fire');
 
         return $player->shot($damage);
@@ -79,9 +77,33 @@ class Player
 
     }
 
-    public function buy()
+    public function buy(string $gun_name): void
     {
+        $gun = shop()->buy($gun_name);
 
+        if ($gun->team !== $this->team && $gun->team !== null)
+            exception('invalid category gun');
+
+        if ($this->gun($gun->type))
+            exception("you have a {$gun->type}");
+
+        if ($gun->price > $this->money)
+            exception('no enough money');
+
+        $this->guns[] = $gun;
+        $this->subtract_money($gun->price);
+    }
+
+    /**
+     * return player's gun of given type.
+     */
+    public function gun(string $gun_type): Gun|null
+    {
+        foreach ($this->guns as $gun) {
+            if ($gun->type === $gun_type)
+                return $gun;
+        }
+        return null;
     }
 
     public function decrease_health(int $damage): int
@@ -93,12 +115,12 @@ class Player
 
     public function add_money (int $money): void
     {
-        $this->money = $money;
+        $this->money += $money;
         $this->money < 10000 ?: $this->money = 10000;
     }
 
-    public function subtract_money()
+    public function subtract_money(int $money): void
     {
-
+        $this->money -= $money;
     }
 }

@@ -20,14 +20,18 @@ echo "\n\n";
 echo "    \033[32moutput:\n \033[0m\n";
 foreach ($commands as $line => $command) {
     // where magic happens :D
-    echo "        " . $line+1 . ' ' . (new Command(trim($command)))->output();
-    if ($line !== array_key_last($commands)) {
-        echo "\n";
+    $output = (new Command(trim($command)))->output();
+    if ($output !== ''){
+        echo "        " . $line+1 . ' ' . $output;
+        if ($line !== array_key_last($commands)) {
+            echo "\n";
+        }
     }
 }
 
 // accepts php code
-echo "\n\n    \033[32m";
-$php_code = readline("anything...? ");
-echo "\033[0m";
-eval($php_code);
+if ($argv[1] ?? false && $argv[1] === '-i') {
+    echo "\n\n    \033[32m";
+    $php_code = readline("anything...?\033[0m");
+    eval($php_code);
+}

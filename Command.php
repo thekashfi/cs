@@ -71,8 +71,6 @@ class Command
         $attacked = $this->command[2];
         $gun_type = $this->command[3];
 
-//        if (! $attacker = game()->get_player($attacker))
-//            throw new CsException('invalid username');
         $attacker = $this->find_or_fail($attacker);
 
         $attacked = $this->find_or_fail($attacked);
@@ -82,11 +80,24 @@ class Command
     }
 
     /**
-     * user buy gun.
+     * player buy gun.
      */
     public function buy(): void
     {
-        $this->output = 'alaki masalan kharid :)';
+        $this->player_name = $this->command[1];
+        $gun = $this->command[2];
+        $time = substr_replace($this->command[3] ,"", -1);
+
+        $player = $this->find_or_fail();
+
+        if ($player->health === 0)
+            throw new CsException('deads can not buy'); // TODO: exception()
+
+        if (strtotime($time) >= strtotime('00:45:00'))
+            exception('you are out of time');
+
+        $player->buy($gun);
+        $this->output = 'I hope you can use it';
     }
 
     public function output(): string

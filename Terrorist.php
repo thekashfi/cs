@@ -8,11 +8,8 @@ class Terrorist extends Team {
 
     public static function get_instance()
     {
-        if (self::$instance == null)
-        {
+        if (self::$instance === null)
             self::$instance = new static;
-        }
-
         return self::$instance;
     }
 }

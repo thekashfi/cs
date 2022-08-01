@@ -56,3 +56,11 @@ function game(): Game
 {
     return Game::get_instance();
 }
+
+/**
+ * returns Shop object (singleton)
+ */
+function shop(): Shop
+{
+    return Shop::get_instance();
+}

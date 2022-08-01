@@ -9,9 +9,8 @@ class Game
     private function __construct() {}
 
     public static function get_instance() {
-        if (self::$instance === null) {
+        if (self::$instance === null)
             self::$instance = new self;
-        }
         return self::$instance;
     }
 
