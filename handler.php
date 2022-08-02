@@ -3,37 +3,32 @@
 require './helpers.php';
 
 // explode input commands
-$commands = file_get_contents('./commands');
-//$commands = preg_split("/\d\d:\d\d:\d\d\d\K/", $commands, null, PREG_SPLIT_NO_EMPTY);
-$commands = explode("\n", $commands);
+//$commands = file_get_contents('./commands');
 
-// print inputs
-//echo "    \033[32minput:\n \033[0m\n";
-//foreach ($commands as $line => $command) {
-//    echo "        " . ($line+1) . ' ' . trim($command);
-//    if ($line !== array_key_last_php7($commands))
-//        echo "\n";
-//}
+$rounds = (int) readline();
+for($r = 0; $r < $rounds; $r++) {
+    $round_commands_left = readline();
+    $round_commands_left = (int) explode(' ', $round_commands_left)[1];
 
-// print outputs
+    game()->round_commands_left = $round_commands_left;
+    game()->start_round();
 
-foreach ($commands as $line => $command) {
-    if (ctype_digit(trim($command[0]))) {
-//        game()->rounds_left = (int) trim($command[0]);
-        continue;
-    }
+    for($c = 0; $c < $round_commands_left; $c++) {
+        $command = readline();
 
-    if ($GLOBALS['winner'] ?? false){
-        echo $GLOBALS['winner'];
-        unset($GLOBALS['winner']);
-    }
 
-    // where magic happens :D
-    $output = (new Command(trim($command)))->output();
-    if ($output !== ''){
-        echo $output;
-        if ($line !== array_key_last_php7($commands))
-            echo "\n";
+        $output = (new Command($command))->output();
+        $foo = game()->round_commands_left;
+        if ($output !== ''){
+            echo $output/* . "\033[31m$foo \033[0m\n"*/;
+//            if ($line !== array_key_last_php7($commands))
+//                echo "\n";
+
+            if ($GLOBALS['winner'] ?? false){
+                echo "\n" . $GLOBALS['winner'];
+                unset($GLOBALS['winner']);
+            }
+        }
     }
 }
 
@@ -41,6 +36,33 @@ if ($GLOBALS['winner'] ?? false){
     echo "\n" . $GLOBALS['winner'];
     unset($GLOBALS['winner']);
 }
+
+
+
+//foreach ($commands as $line => $command) {
+//    if (ctype_digit(trim($command[0]))) {
+////        game()->rounds_left = (int) trim($command[0]);
+//        continue;
+//    }
+//
+//    if ($GLOBALS['winner'] ?? false){
+//        echo $GLOBALS['winner'];
+//        unset($GLOBALS['winner']);
+//    }
+//
+//    // where magic happens :D
+//    $output = (new Command(trim($command)))->output();
+//    if ($output !== ''){
+//        echo $output;
+//        if ($line !== array_key_last_php7($commands))
+//            echo "\n";
+//    }
+//}
+//
+//if ($GLOBALS['winner'] ?? false){
+//    echo "\n" . $GLOBALS['winner'];
+//    unset($GLOBALS['winner']);
+//}
 
 // accepts php code
 //if ($argv[1] ?? false && $argv[1] === '-i') {

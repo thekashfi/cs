@@ -8,19 +8,16 @@ class Command
 
     public function __construct($command)
     {
-        $this->command = explode(' ', $command);
+        $this->command = explode(' ', trim($command));
         $method = toUnderline(strtolower($this->command[0]));
 
         if (method_exists($this, $method))
             try {
-                $this->$method();
-
                 if ($this->command[0] !== 'ROUND' && --game()->round_commands_left === 0) {
-//                    if($this->command[0] === 'SCORE-BOARD') {
-//                        dd(game()->get_round_winner()->name);
-//                    }
-                    $GLOBALS['winner'] = game()->get_round_winner()->name . ' won' . "\n";
+                    $GLOBALS['winner'] = game()->get_round_winner()->name . ' won';
                 }
+
+                $this->$method();
             } catch (CsException $exception){
                 error($exception->getMessage(), false);
             }
