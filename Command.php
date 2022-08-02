@@ -8,17 +8,20 @@ class Command
     public function __construct(public $command)
     {
         $this->command = explode(' ', $this->command);
-
         $method = toUnderline(strtolower($this->command[0]));
 
-        if (method_exists($this, $method)) { //TODO: remove braces from if
+        if (method_exists($this, $method))
             try {
-                echo $this->$method();
+                $this->$method();
+//if($this->command[0] === 'GET-HEALTH' && $this->command[1] === 'Cat') {
+//    dd(game()->round_commands_left);
+//}
+                if ($this->command[0] !== 'ROUND' && --game()->round_commands_left === 0) {
+                    $GLOBALS['winner'] = game()->get_round_winner()->name . ' won' . "\n";
+                }
             } catch (CsException $exception){
                 error($exception->getMessage(), false);
             }
-        }
-
     }
 
     /**
@@ -109,6 +112,16 @@ class Command
         game()->board();
     }
 
+    /**
+     * set number of this round commands. and do start_round needed functionalities.
+     */
+    public function round(): void
+    {
+        game()->round_commands_left = (int) $this->command[1];
+
+        game()->start_round();
+    }
+
     public function output(): string
     {
         return $this->output;
@@ -122,16 +135,3 @@ class Command
         return game()->get_player($player_name ?? $this->player_name) ?: exception('invalid username');
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

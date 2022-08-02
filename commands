@@ -1,10 +1,39 @@
-ADD-USER RaB1t Terrorist 00:17:415
-ADD-USER madam Counter-Terrorist 01:03:618
-GET-MONEY madam 00:43:151
-GET-HEALTH madam 00:59:301
-BUY madam M4A1 00:44:000
-BUY madam AK 00:44:000
-BUY madam AWP 00:44:000
-BUY Dog M4A1 00:27:014
-ADD-USER Ali Terrorist 00:17:415
-SCORE-BOARD 01:17:200
+1
+ROUND 37
+ADD-USER John-Wick Counter-Terrorist 00:00:541
+ADD-USER Yuri-Boyka Counter-Terrorist 00:01:130
+ADD-USER Bruce-Lee Terrorist 00:01:907
+ADD-USER John-Wick Counter-Terrorist 00:02:181
+ADD-USER johnwick Counter-Terrorist 00:03:777
+GET-MONEY John-Wick 00:03:813
+GET-HEALTH Bruce-Lee 00:04:465
+GET-MONEY johnwick 00:05:000
+BUY John-Wick AK 00:06:000
+BUY John-Wick AWP 00:07:000
+BUY John-Wick Desert-Eagle 00:08:000
+BUY Yuri-Boyka M4A1 00:09:000
+BUY Yuri-Boyka UPS-S 00:10:000
+BUY Yuri-Boyka Desert-Eagle 00:11:000
+BUY Bruce-Lee AK 00:12:000
+BUY Bruce-Lee Glock-18 00:13:000
+BUY johnwick Desert-Eagle 00:14:000
+GET-MONEY John-Wick 00:15:000
+GET-MONEY Yuri-Boyka 00:16:000
+GET-MONEY Bruce-Lee 00:17:000
+GET-MONEY johnwick 00:18:000
+TAP John-Wick Yuri-Boyka heavy 00:19:000
+TAP John-Wick Yuri-Boyka pistol 00:20:000
+TAP John-Wick Yuri-Boyka knife 00:21:000
+TAP Yuri-Boyka John-Wick heavy 00:22:000
+TAP Yuri-Boyka John-Wick pistol 00:23:000
+TAP Yuri-Boyka John-Wick knife 00:24:000
+TAP Yuri-Boyka Bruce-Lee heavy 00:25:000
+TAP Yuri-Boyka Bruce-Lee pistol 00:26:000
+TAP Yuri-Boyka Bruce-Lee knife 00:27:000
+TAP Bruce-Lee Yuri-Boyka heavy 00:28:000
+TAP Bruce-Lee Yuri-Boyka pistol 00:29:000
+TAP Bruce-Lee Yuri-Boyka knife 00:30:000
+GET-HEALTH John-Wick 01:31:000
+GET-HEALTH Yuri-Boyka 01:32:000
+GET-HEALTH Bruce-Lee 01:33:000
+GET-HEALTH johnwick 01:34:000

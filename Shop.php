@@ -41,6 +41,5 @@ class Shop
         $this->guns[] = new Gun('M4A1', 'Counter-Terrorist', 'heavy', 2700, 11, 200);
         $this->guns[] = new Gun('Desert-Eagle', 'Counter-Terrorist', 'pistol', 600, 53, 175);
         $this->guns[] = new Gun('UPS-S', 'Counter-Terrorist', 'pistol', 300, 13, 225);
-        // $this->guns[] = new Gun('Knife', null, 'knife', 0, 43, 500); // TODO: knife is not buyable. give at round start.
     }
 }

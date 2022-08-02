@@ -3,17 +3,22 @@
 class Team
 {
     public array $players = [];
-    public int $wins;
-    public int $loses;
+    public int $wins = 0;
 
     public function won(): void
     {
+        $this->wins++;
 
+        foreach ($this->players as $p) {
+            $p->add_money(2700);
+        }
     }
 
     public function lose(): void
     {
-
+        foreach ($this->players as $p) {
+            $p->add_money(2400);
+        }
     }
 
     /**

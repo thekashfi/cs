@@ -4,7 +4,8 @@ require './helpers.php';
 
 // explode input commands
 $commands = file_get_contents('./commands');
-$commands = preg_split("/\d\d:\d\d:\d\d\d\K/", $commands, null, PREG_SPLIT_NO_EMPTY);
+//$commands = preg_split("/\d\d:\d\d:\d\d\d\K/", $commands, null, PREG_SPLIT_NO_EMPTY);
+$commands = explode("\n", $commands);
 
 // print inputs
 echo "    \033[32minput:\n \033[0m\n";
@@ -18,6 +19,16 @@ foreach ($commands as $line => $command) {
 echo "\n\n";
 echo "    \033[32moutput:\n \033[0m\n";
 foreach ($commands as $line => $command) {
+    if (ctype_digit(trim($command[0]))) {
+//        game()->rounds_left = (int) trim($command[0]);
+        continue;
+    }
+
+    if ($GLOBALS['winner'] ?? false){
+        echo $GLOBALS['winner'];
+        unset($GLOBALS['winner']);
+    }
+
     // where magic happens :D
     $output = (new Command(trim($command)))->output();
     if ($output !== ''){

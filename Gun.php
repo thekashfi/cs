@@ -1,6 +1,6 @@
 <?php
 
-class Gun {
+class Gun { // TODO: should be singleton :D
     //pistol/gun/knife
 
     public string $name;

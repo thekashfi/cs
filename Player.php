@@ -4,7 +4,7 @@ class Player
 {
     public string $name;
     public string $team;
-    private array $guns = [];
+    public array $guns = [];
     public int $health = 0;
     public int $money = 0;
     public int $kills = 0;
@@ -18,7 +18,8 @@ class Player
     {
         $player = new self;
         $player->name = $name;
-        $player->set_joined_at($time);
+        $player->set_join_time($time);
+        $player->set_join_health($time);
         return $player;
     }
 
@@ -44,26 +45,30 @@ class Player
         if ($attacked->health === 0)
             exception('attacked is dead');
 
-        if (! $gun = $this->gun($gun_type))
+        if (! ($gun = $this->gun($gun_type)))
             exception('no such gun');
 
         if ($this->team === $attacked->team)
             exception('friendly fire');
 
-        $attacked_health = $attacked->shot($gun->damage);
-        if ($attacked_health === 0) {
-            $this->add_money($gun->reward);
-            $this->kills++;
-        }
+        $attacked->shot($this, $gun);
     }
 
-    public function shot($damage): bool
+    public function shot(Player $attacker, Gun $gun): void
     {
-        $health = $this->decrease_health($damage);
-        if ($health === 0)
-            $this->deaths++;
+        $health = $this->decrease_health($gun->damage);
+        if ($health !== 0)
+            return;
 
-        return $health;
+        $this->die();
+        $attacker->add_money($gun->reward);
+        $attacker->kills++;
+    }
+
+    private function die(): void
+    {
+        $this->deaths++;
+        $this->guns = [];
     }
 
 
@@ -117,9 +122,18 @@ class Player
         $this->money -= $money;
     }
 
-    private function set_joined_at(string $time)
+    private function set_join_time(string $time): void
     {
         $milliseconds = explode(':', $time)[2];
         $this->joined_at = strtotime(str_replace(':' . $milliseconds, '', $time)) . $milliseconds;
+    }
+
+    private function set_join_health(string $time): void
+    {
+        $time = (int) (explode(':', $time)[1] . explode(':', $time)[2]);
+        if ($time <= 3000) {
+            $this->health = 100;
+            $this->guns[] = new Gun('Knife', null, 'knife', 0, 43, 500);
+        }
     }
 }
