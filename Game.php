@@ -3,7 +3,7 @@
 class Game
 {
 //    public int $rounds_left;
-    public int $round_commands_left;
+    public $round_commands_left;
     private static $instance = null;
 
     private function __construct() {}
@@ -25,7 +25,7 @@ class Game
     /**
      * if player exists in game. returns the player. otherwise returns false.
      */
-    public function get_player($name): Player|null
+    public function get_player($name)
     {
         foreach (array_merge(ct()->players, t()->players) as $player) {
             if ($player->name === $name)
@@ -54,7 +54,7 @@ class Game
     /**
      * specifies round winner. increase wins count of that team and return it.
      */
-    public function get_round_winner(): CounterTerrorist|Terrorist
+    public function get_round_winner()
     {
         $ct_players = count(ct()->players);
         $t_players = count(t()->players);
@@ -77,7 +77,7 @@ class Game
     {
         $alives = [];
         foreach ($players as $p) {
-            if ($p->health === 0)
+            if ($p->health !== 0)
                 $alives[] = $p;
         }
         return $alives;

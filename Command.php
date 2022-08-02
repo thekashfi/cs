@@ -2,21 +2,23 @@
 
 class Command
 {
-    private string $output = '';
-    private string $player_name;
+    private $output = '';
+    private $player_name;
+    public $command;
 
-    public function __construct(public $command)
+    public function __construct($command)
     {
-        $this->command = explode(' ', $this->command);
+        $this->command = explode(' ', $command);
         $method = toUnderline(strtolower($this->command[0]));
 
         if (method_exists($this, $method))
             try {
                 $this->$method();
-//if($this->command[0] === 'GET-HEALTH' && $this->command[1] === 'Cat') {
-//    dd(game()->round_commands_left);
-//}
+
                 if ($this->command[0] !== 'ROUND' && --game()->round_commands_left === 0) {
+//                    if($this->command[0] === 'SCORE-BOARD') {
+//                        dd(game()->get_round_winner()->name);
+//                    }
                     $GLOBALS['winner'] = game()->get_round_winner()->name . ' won' . "\n";
                 }
             } catch (CsException $exception){
@@ -27,7 +29,7 @@ class Command
     /**
      * add user to a team.
      */
-    public function add_user(): void
+    public function add_user()
     {
         $name = $this->command[1];
         $team = $this->command[2];
@@ -45,7 +47,7 @@ class Command
     /**
      * return a user's money amount.
      */
-    public function get_money(): void
+    public function get_money()
     {
         $this->player_name = $this->command[1];
 
@@ -57,7 +59,7 @@ class Command
     /**
      * return a user's health amount.
      */
-    public function get_health(): void
+    public function get_health()
     {
         $this->player_name = $this->command[1];
 
@@ -69,7 +71,7 @@ class Command
     /**
      * shoot a player.
      */
-    public function tap(): void
+    public function tap()
     {
         $attacker = $this->command[1];
         $attacked = $this->command[2];
@@ -86,7 +88,7 @@ class Command
     /**
      * player buy gun.
      */
-    public function buy(): void
+    public function buy()
     {
         $this->player_name = $this->command[1];
         $gun = $this->command[2];
@@ -107,7 +109,7 @@ class Command
     /**
      * print player's <rank> <name> <kills> <deaths>
      */
-    public function score_board(): void
+    public function score_board()
     {
         game()->board();
     }
@@ -115,7 +117,7 @@ class Command
     /**
      * set number of this round commands. and do start_round needed functionalities.
      */
-    public function round(): void
+    public function round()
     {
         game()->round_commands_left = (int) $this->command[1];
 
@@ -130,7 +132,7 @@ class Command
     /**
      * return player if find it. otherwise throw 'invalid username' exception.
      */
-    private function find_or_fail(string $player_name = null): Player|Exception
+    private function find_or_fail(string $player_name = null)
     {
         return game()->get_player($player_name ?? $this->player_name) ?: exception('invalid username');
     }

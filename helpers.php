@@ -21,7 +21,7 @@ function toUnderline(string $string): string
 /**
  * prints error
  */
-function error(string $error, $break = true): void
+function error(string $error, $break = true)
 {
     if ($break)
         die("        \033[31m$error \033[0m\n");
@@ -31,7 +31,7 @@ function error(string $error, $break = true): void
 /**
  * throw new CsException
  */
-function exception(string $error_message): void
+function exception(string $error_message)
 {
     throw new CsException($error_message);
 }

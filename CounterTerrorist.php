@@ -1,7 +1,7 @@
 <?php
 
 class CounterTerrorist extends Team {
-    public string $name = 'Counter-Terrorist';
+    public $name = 'Counter-Terrorist';
     private static $instance = null;
 
     private function __construct(){}

@@ -2,7 +2,7 @@
 
 class Shop
 {
-    public array $guns;
+    public $guns;
     private static $instance;
 
     private function __construct() {
@@ -23,7 +23,7 @@ class Shop
     /**
      * return player's gun of given type.
      */
-    private function gun(string $gun_name): Gun|null
+    private function gun(string $gun_name)
     {
         foreach ($this->guns as $gun) {
             if ($gun->name === $gun_name)

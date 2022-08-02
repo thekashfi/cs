@@ -3,14 +3,14 @@
 class Gun { // TODO: should be singleton :D
     //pistol/gun/knife
 
-    public string $name;
-    public string|null $team;
-    public string $type;
-    public int $price;
-    public int $damage;
-    public int $reward;
+    public $name;
+    public $team;
+    public $type;
+    public $price;
+    public $damage;
+    public $reward;
 
-    public function __construct(string $name, string|null $team, string $type, int $price, int $damage, int $reward)
+    public function __construct(string $name, $team, string $type, int $price, int $damage, int $reward)
     {
         $this->team = $team;
         $this->type = $type;

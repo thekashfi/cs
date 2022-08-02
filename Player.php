@@ -2,14 +2,14 @@
 
 class Player
 {
-    public string $name;
-    public string $team;
-    public array $guns = [];
-    public int $health = 0;
-    public int $money = 0;
-    public int $kills = 0;
-    public int $deaths = 0;
-    public int $joined_at;
+    public $name;
+    public $team;
+    public $guns = [];
+    public $health = 0;
+    public $money = 0;
+    public $kills = 0;
+    public $deaths = 0;
+    public $joined_at;
 
     /**
      * create CTPlayer or TPlayer.
@@ -37,7 +37,7 @@ class Player
         return $this;
     }
 
-    public function shoot(Player $attacked, string $gun_type): void
+    public function shoot(Player $attacked, string $gun_type)
     {
         if ($this->health === 0)
             exception('attacker is dead');
@@ -54,7 +54,7 @@ class Player
         $attacked->shot($this, $gun);
     }
 
-    public function shot(Player $attacker, Gun $gun): void
+    public function shot(Player $attacker, Gun $gun)
     {
         $health = $this->decrease_health($gun->damage);
         if ($health !== 0)
@@ -65,7 +65,7 @@ class Player
         $attacker->kills++;
     }
 
-    private function die(): void
+    private function die()
     {
         $this->deaths++;
         $this->guns = [];
@@ -75,7 +75,7 @@ class Player
     /**
      * buy gun for player.
      */
-    public function buy(string $gun_name): void
+    public function buy(string $gun_name)
     {
         $gun = shop()->buy($gun_name);
 
@@ -95,7 +95,7 @@ class Player
     /**
      * return player's gun with given type. and null if not found between player's guns.
      */
-    private function gun(string $gun_type): Gun|null
+    private function gun(string $gun_type)
     {
         foreach ($this->guns as $gun) {
             if ($gun->type === $gun_type)
@@ -111,24 +111,24 @@ class Player
         return $this->health;
     }
 
-    public function add_money (int $money): void
+    public function add_money (int $money)
     {
         $this->money += $money;
         $this->money < 10000 ?: $this->money = 10000;
     }
 
-    public function subtract_money(int $money): void
+    public function subtract_money(int $money)
     {
         $this->money -= $money;
     }
 
-    private function set_join_time(string $time): void
+    private function set_join_time(string $time)
     {
         $milliseconds = explode(':', $time)[2];
         $this->joined_at = strtotime(str_replace(':' . $milliseconds, '', $time)) . $milliseconds;
     }
 
-    private function set_join_health(string $time): void
+    private function set_join_health(string $time)
     {
         $time = (int) (explode(':', $time)[1] . explode(':', $time)[2]);
         if ($time <= 3000) {

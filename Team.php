@@ -2,10 +2,10 @@
 
 class Team
 {
-    public array $players = [];
-    public int $wins = 0;
+    public $players = [];
+    public $wins = 0;
 
-    public function won(): void
+    public function won()
     {
         $this->wins++;
 
@@ -14,7 +14,7 @@ class Team
         }
     }
 
-    public function lose(): void
+    public function lose()
     {
         foreach ($this->players as $p) {
             $p->add_money(2400);
@@ -51,7 +51,7 @@ class Team
     /**
      * if player exists in team. returns the player. otherwise returns false.
      */
-    public function get_player($name): Player|null
+    public function get_player($name)
     {
         foreach ($this->players as $player) {
             if ($player->name === $name)
@@ -81,7 +81,7 @@ class Team
         foreach ($players as $rank => $p) {
             echo $rank+1 . " {$p['name']} {$p['kills']} {$p['deaths']}";
 
-            if ($rank !== array_key_last($players))
+            if ($rank !== array_key_last_php7($players))
                 echo "\n";
         }
     }
