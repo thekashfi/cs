@@ -92,7 +92,7 @@ class Command
         $player = $this->find_or_fail();
 
         if ($player->health === 0)
-            throw new CsException('deads can not buy'); // TODO: exception()
+            exception('deads can not buy'); // TODO: exception()
 
         if (strtotime($time) >= strtotime('00:45:00'))
             exception('you are out of time');
@@ -119,7 +119,7 @@ class Command
      */
     private function find_or_fail(string $player_name = null): Player|Exception
     {
-        return game()->get_player($player_name ?? $this->player_name) ?: throw new CsException('invalid username');
+        return game()->get_player($player_name ?? $this->player_name) ?: exception('invalid username');
     }
 }
 

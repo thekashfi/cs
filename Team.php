@@ -23,9 +23,9 @@ class Team
     {
         // ! $this->player_exists($player->name) ?: exception('you are already in this game');
         if ($this->player_exists($player->name))
-            throw new CsException('you are already in this game'); // TODO: ask: maybe one line these errors?!
+            exception('you are already in this game'); // TODO: ask: maybe one line these errors?!
         if (count($this->players) >= 10)
-            throw new CsException('this team is full');
+            exception('this team is full');
 
         $this->players[] = $player;
 

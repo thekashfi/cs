@@ -39,16 +39,16 @@ class Player
     public function shoot(Player $attacked, string $gun_type): void
     {
         if ($this->health === 0)
-            throw new CsException('attacker is dead');
+            exception('attacker is dead');
 
         if ($attacked->health === 0)
-            throw new CsException('attacked is dead');
+            exception('attacked is dead');
 
         if (! $gun = $this->gun($gun_type))
-            throw new CsException('no such gun');
+            exception('no such gun');
 
         if ($this->team === $attacked->team)
-            throw new CsException('friendly fire');
+            exception('friendly fire');
 
         $attacked_health = $attacked->shot($gun->damage);
         if ($attacked_health === 0) {

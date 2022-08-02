@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * die and dump (var_dump)
+ */
 function dd($value) {
     echo "\033[33m";
     var_dump($value);
@@ -26,7 +29,7 @@ function error(string $error, $break = true): void
 }
 
 /**
- * break output flow and prints error
+ * throw new CsException
  */
 function exception(string $error_message): void
 {
