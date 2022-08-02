@@ -8,16 +8,15 @@ $commands = file_get_contents('./commands');
 $commands = explode("\n", $commands);
 
 // print inputs
-echo "    \033[32minput:\n \033[0m\n";
-foreach ($commands as $line => $command) {
-    echo "        " . ($line+1) . ' ' . trim($command);
-    if ($line !== array_key_last_php7($commands))
-        echo "\n";
-}
+//echo "    \033[32minput:\n \033[0m\n";
+//foreach ($commands as $line => $command) {
+//    echo "        " . ($line+1) . ' ' . trim($command);
+//    if ($line !== array_key_last_php7($commands))
+//        echo "\n";
+//}
 
 // print outputs
-echo "\n\n";
-echo "    \033[32moutput:\n \033[0m\n";
+
 foreach ($commands as $line => $command) {
     if (ctype_digit(trim($command[0]))) {
 //        game()->rounds_left = (int) trim($command[0]);
@@ -32,7 +31,7 @@ foreach ($commands as $line => $command) {
     // where magic happens :D
     $output = (new Command(trim($command)))->output();
     if ($output !== ''){
-        echo "        " . $line+1 . ' ' . $output;
+        echo $output;
         if ($line !== array_key_last_php7($commands))
             echo "\n";
     }
@@ -44,12 +43,8 @@ if ($GLOBALS['winner'] ?? false){
 }
 
 // accepts php code
-if ($argv[1] ?? false && $argv[1] === '-i') {
-    echo "\n\n    \033[32m";
-    $php_code = readline("anything...?\033[0m");
-    eval($php_code);
-}
-
-function array_key_last_php7($array) {
-    return array_keys($array)[count($array)-1];
-}
+//if ($argv[1] ?? false && $argv[1] === '-i') {
+//    echo "\n\n    \033[32m";
+//    $php_code = readline("anything...?\033[0m");
+//    eval($php_code);
+//}

@@ -23,9 +23,10 @@ function toUnderline(string $string): string
  */
 function error(string $error, $break = true)
 {
-    if ($break)
-        die("        \033[31m$error \033[0m\n");
-    echo "        \033[36m$error \033[0m\n";
+    echo "$error \n";
+//    if ($break)
+//        die("        \033[31m$error \033[0m\n");
+//    echo "        \033[36m$error \033[0m\n";
 }
 
 /**
@@ -66,4 +67,8 @@ function game(): Game
 function shop(): Shop
 {
     return Shop::get_instance();
+}
+
+function array_key_last_php7($array) {
+    return array_keys($array)[count($array)-1];
 }
